@@ -30,13 +30,17 @@ This project will be completed in July 2017.
 Kai Xing(Professor)
 
 Jun Wang		[cnwj@mail.ustc.edu.cn]
+
 Haojun Xia
+
 Sijie Teng
+
 Zhi Zheng
 
 ## TIMELINE
 
 Mar 5, 2017	确定题目与分组成员
+
 Mar 19, 2017	完成前期调研
 
 
