@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8">
+</head>
+<body>
+
+	<div id="divlogin">
+		<h1>基于互联网的小型文件分布系统</h1>
+		<p id = "p1">	用户名：<input id="usrname"></p>
+		<p id = "p2"> 密码 ：<input type="password" id="usrpassward"></p>
+		<button id = "p3" type="button" onclick="showfiles()">登录</button>
+		<div id="dropDiv">Drag  drop your files here!</div>
+	</div>
+</body>
+<style type="text/css">
+#dropDiv {
+    width: 100%;
+    border: 1px solid #CCCCCC;
+    margin-top: 20px;
+    padding: 80px 20px;
+    text-align: center;
+    color: #CCCCCC;
+}
+
+#dropDiv.over {
+	border-color: #DE7E7E;
+	color: #DE7E7E;
+	background-color: #FFEDED;
+}
+</style>
+	<script type="text/javascript">
+	"use strict";
+		function login(){
+			var a = document.getElementById("usrname");
+			var b = document.getElementById("usrpassward");
+			if(a.value == "os2017" && b.value == "123456"){
+				var parent = document.getElementById("divlogin");
+				var child = document.getElementById("p1");
+				parent.removeChild(child);
+				var child = document.getElementById("p2");
+				parent.removeChild(child);
+				var child = document.getElementById("p3");
+				parent.removeChild(child);
+				selectfiles();
+			}
+		}
+		function selectfiles(){
+			var fileselect=document.createElement("input");
+			fileselect.type = "file";
+			var parent = document.getElementById("divlogin");
+			parent.appendChild(fileselect);
+    	}   
+    	function showfiles(){
+			document.addEventListener('DOMContentLoaded', function(event) {
+				document.getElementById('dropDiv').addEventListener('drop', function (e) {
+				e.stopPropagation();
+				e.preventDefault();
+
+				var uploadFile = function(file, path) {
+					console.log(path, file);
+			// handle file uploading
+				};
+
+			var iterateFilesAndDirs = function(filesAndDirs, path) {
+				for (var i = 0; i < filesAndDirs.length; i++) {
+					if (typeof filesAndDirs[i].getFilesAndDirectories === 'function') {
+						var path = filesAndDirs[i].path;
+
+						// this recursion enables deep traversal of directories
+						filesAndDirs[i].getFilesAndDirectories().then(function(subFilesAndDirs) {
+							// iterate through files and directories in sub-directory
+						iterateFilesAndDirs(subFilesAndDirs, path);
+						});
+					} else {
+						uploadFile(filesAndDirs[i], path);
+						}
+					}
+			};
+
+			// begin by traversing the chosen files and directories
+				if ('getFilesAndDirectories' in e.dataTransfer) {
+						e.dataTransfer.getFilesAndDirectories().then(function(filesAndDirs) {
+						iterateFilesAndDirs(filesAndDirs, '/');
+						});
+				}
+				});
+			});
+		};
+	</script>
+</html>
