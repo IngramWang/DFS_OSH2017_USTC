@@ -1,0 +1,14 @@
+这一部分测试了利用网页访问数据库并查询目录列表.
+
+使用方法:
+
+将dfstest.html放到<Tomcat-installation-directory>/webapps/ROOT/
+
+将File_Search.class和database整个目录放到<Tomcat-installation-directory>/webapps/ROOT/WEB-INF/classes/
+
+将mysql-connector-java-5.1.39-bin.jar放到<Tomcat-installation-directory>/webapps/ROOT/WEB-INF/lib/
+
+重启服务器,浏览器打开localhost:8080/dfstest.html,在文件目录访问测试中输入路径名,如数据库访问正常,将显示该路径下的文件列表.
+
+
+sourse目录下的File_Search.java应与database包中的其他类文件一同编译.

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="/js/jquery-3.2.1.js"></script>
+<meta charset="utf-8">
+<title>JS和JAVA服务程序交互测试</title>
+
+<script>
+	$(document).ready(function()
+	{
+ 
+	});
+</script>
+
+</head>
+
+<body>
+   	<h1>DFS_私有网盘</h1>
+
+	<h2>上传测试</h2>
+   	<p>用来和服务器端网页服务程序（基于java）进行通讯测试。</p>
+
+	<form method="post" action="/Upload_Send_To_Server" enctype="multipart/form-data">
+		选择一个文件:
+		<input type="file" name="uploadFile" />
+		<br/><br/>
+		<input type="submit" value="上传" />
+	</form>
+
+	<h2>文件目录访问测试</h2>
+   	<p>测试访问服务器端的文件目录</p>
+
+	<form method="get" action="/File_Search">
+		输入路径:
+		<input type="text" name="path">
+		<br /><br />
+		<input type="submit" value="提交" />
+	</form>
+
+
+
+</body>
+</html>
+
+
