@@ -1,0 +1,5 @@
+这部分是由夏昊珺来编写和维护,主要讲述了Apache&tomcat服务器的搭建配置、JRE配置、javascript网页前端和浏览器以及后台servlet三者间的通讯。
+
+
+ROOT文件夹直接拷贝到tomcat/webapps/  覆盖原有ROOT  即可以在localhost：8080/ 打开我的html，并执行文件上传到服务器和转发到客户机的操作。
+
