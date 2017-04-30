@@ -173,6 +173,64 @@ public class Query {
 	}
 	
 	//查询设备
+	//无输入参数
+	//返回一个包含所有在线设备的DeviceItem列表
+	public DeviceItem[] queryOnlineDevice(){
+        Statement stmt = null;
+        ResultSet rs = null;
+        DeviceItem deviceArray[] = null;
+        
+        String ip;
+        int port,rst,id;
+
+        int count,i;
+
+        try{
+            stmt = conn.createStatement();
+            String sql;
+            sql = String.format("SELECT * FROM DFS.DEVICE WHERE ISONLINE=true ORDER BY RS DESC");
+            rs = stmt.executeQuery(sql);
+            
+            if (!rs.last())
+                return null;
+            count = rs.getRow();
+            deviceArray=new DeviceItem[count];
+            i=0;
+            rs.first();
+
+            while (i<count){
+
+                id = rs.getInt("ID");
+                ip  = rs.getString("IP");
+                port = rs.getInt("PORT");
+                rst = rs.getInt("RS");
+  
+                deviceArray[i]=new DeviceItem(id,ip,port,true,rst);
+                rs.next();
+                i++;
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }        
+        finally{
+            try{
+                if(rs!=null && !rs.isClosed()) 
+                    rs.close();
+            }
+            catch(Exception e){
+            }
+            try{
+                if(stmt!=null && !stmt.isClosed()) 
+                    stmt.close();
+            }
+            catch(Exception e){
+            }            
+        }
+        return deviceArray;
+	}
+
+	//查询在线设备
 	//参数：设备ID
 	//成功返回一个包含相应表项的DeviceItem实例；否则返回null
 	public DeviceItem queryDevice(int id){
