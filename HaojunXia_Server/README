@@ -3,3 +3,148 @@
 
 ROOT文件夹直接拷贝到tomcat/webapps/  覆盖原有ROOT  即可以在localhost：8080/ 打开我的html，并执行文件上传到服务器和转发到客户机的操作。
 
+在这之前你需要做一系列的配置：
+
+一：安装JDK
+
+（截止编写，参考自http://topspeedsnail.com/ubuntu16-install-java-jdk/）、
+如何安装openjdk：
+
+	更新软件包列表：
+	$ sudo apt-get update
+
+	安装openjdk-8-jdk：
+	$ sudo apt-get install openjdk-8-jdk
+
+	查看java版本：
+	$ java -version
+
+	编辑/etc/profile
+	$ sudo vim /etc/profile
+
+	在文件尾添加java环境变量：
+	export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64/jre/bin"
+
+
+二：安装eclipse（暂时我还没有用到ide  可以先不装）
+
+三：安装Apache服务
+	
+（参考自https://cnbin.github.io/blog/2015/07/03/ubuntu-14-dot-04-an-zhuang-apache/）
+
+	sudo apt-get install apache2
+
+四：安装Tomcat服务
+
+（参考自https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-8-on-ubuntu-16-04）
+	***********************************************************************************
+	首先，更新apt：
+	$sudo apt-get update
+
+	安装jdk:(可跳过,如果已有jdk)
+	$sudo apt-get install default-jdk
+	***********************************************************************************
+	新建tomcat用户组:
+	$sudo groupadd tomcat
+
+	新建tomcat用户[假定家目录是/opt/tomcat/  tomcat就安装在这里  以后都工作基本都在这里]
+	$sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+	***********************************************************************************
+	转移当前目录为tem:
+	$cd /tmp
+	
+	下载最新的tomcat:
+	$curl -O http://apache.mirrors.ionfish.org/tomcat/tomcat-8/v8.5.5/bin/apache-tomcat-8.5.5.tar.gz
+
+	新建安装目录:
+	$sudo mkdir /opt/tomcat
+
+	解压安装文件:
+	$sudo tar xzvf apache-tomcat-8*tar.gz -C /opt/tomcat --strip-components=1
+	***********************************************************************************
+	切换目录:
+	$cd /opt/tomcat
+
+	让tomcat组内成员获得对整个安装目录的拥有权
+	$sudo chgrp -R tomcat /opt/tomcat
+
+	让tomcat组内成员对conf目录拥有读和执行权限
+	$sudo chmod -R g+r conf
+	$sudo chmod g+x conf
+	
+	让tomcat用户拥有以下文件目录:
+	$sudo chown -R tomcat webapps/ work/ temp/ logs/
+	***********************************************************************************
+	tomcat运行基于java,因此需要我们指定java的安装目录给它,便于tomcat调用jre
+	
+	使用以下命令查看java版本:
+	sudo update-java-alternatives -l
+	输出可能是这样的:
+	java-1.8.0-openjdk-amd64       1081       /usr/lib/jvm/java-1.8.0-openjdk-amd64
+	你的JAVA_HOME= 输出+"/jre"   比如上述输出对应的家目录是
+	JAVA_HOME= /usr/lib/jvm/java-1.8.0-openjdk-amd64/jre
+
+	利用以上信息修改配置文件:
+	$sudo nano /etc/systemd/system/tomcat.service
+	
+	复制以下信息到该文件中:(如果和你自己的java位置不同,记得修改其中的JAVA_HOME)
+	[Unit]
+	Description=Apache Tomcat Web Application Container
+	After=network.target
+
+	[Service]
+	Type=forking
+
+	Environment=JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64/jre
+	Environment=CATALINA_PID=/opt/tomcat/temp/tomcat.pid
+	Environment=CATALINA_HOME=/opt/tomcat
+	Environment=CATALINA_BASE=/opt/tomcat
+	Environment='CATALINA_OPTS=-Xms512M -Xmx1024M -server -XX:+UseParallelGC'
+	Environment='JAVA_OPTS=-Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom'
+
+	ExecStart=/opt/tomcat/bin/startup.sh
+	ExecStop=/opt/tomcat/bin/shutdown.sh
+
+	User=tomcat
+	Group=tomcat
+	UMask=0007
+	RestartSec=10
+	Restart=always
+
+	[Install]
+	WantedBy=multi-user.target
+
+	重新载入配置:
+	$sudo systemctl daemon-reload
+
+	启动tomcat:
+	$sudo systemctl start tomcat
+
+	再次确认没有错误发生:
+	$sudo systemctl status tomcat
+	***********************************************************************************
+	启用8080端口:	
+	$sudo ufw allow 8080
+
+	设置开机启动tomcat:
+	sudo systemctl enable tomcat
+	***********************************************************************************
+	设置tomcat网页管理接口(略过 可以不做)
+	***********************************************************************************
+	访问tomcat默认主页:
+	打开浏览器,输入localhost:8080或者127.0.0.1:8080 就可以看见tomcat默认主页
+	***********************************************************************************
+
+五、向标准jre中添加一些运行时库
+	
+	为了支持servlet进行文件上传服务(文件从浏览器上传到服务器)
+
+	下载以下两个包,解压后将其中的.class文件复制粘贴到你的jre的lib/目录下   
+	(理论上你可以使用whereis jvm很快的找到你的jre位置)
+	 http://commons.apache.org/proper/commons-fileupload/ 
+	 http://commons.apache.org/proper/commons-io/ 
+
+	记得此时重新启动你的tomcat才能生效(这个地方坑过我...注意)
+
+六、暂时就到这啦(上传的文件会默认传到ROOT/Upload_File_Tem_Dir/)  现在还没做转发的servlet(也就是说接着将文件转发给client  现在做的是调用Upload_Forward_To_Client.class,打印hello world  哈哈哈哈~)
+	
