@@ -5,6 +5,7 @@ import javax.swing.*;
 import java.net.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 public class DFS_server {
@@ -31,13 +32,15 @@ public class DFS_server {
 					}
 			}
 		}
-	}
+	}	
+	
 	static class ClientThread extends Thread {
 		Socket clientsocket;
 		String scentence;
 		public ClientThread(Socket scoket){
 			this.clientsocket = scoket;
 		}
+		
 		public void run(){
 			System.out.println("start!");
 			try{
@@ -48,14 +51,15 @@ public class DFS_server {
 					BufferedReader inFromClient = new BufferedReader(new InputStreamReader(clientsocket.getInputStream()));//从客户端得到的数据流
 					String sentence = inFromClient.readLine();//对得到的流进行处理
 					readscentence(sentence);
-					if(sentence.equals("exit")) break;
+					if(sentence.equals("exit")) 
+						break;
 					System.out.println("RECV: "+ sentence);
 					DataOutputStream outToClient = new DataOutputStream(clientsocket.getOutputStream());
 					outToClient.writeBytes("received!");
 					}
-				}catch(SocketTimeoutException s){
+				} catch(SocketTimeoutException s){
     		    System.out.println("Socket timed out!");
-     			}catch(IOException e){
+     			} catch(IOException e){
         		e.printStackTrace();
     			}
     			clientsocket.close();
@@ -63,103 +67,88 @@ public class DFS_server {
     			e.printStackTrace();
     		}
     	}
+		
     	private int readscentence(String sentence){
     		System.out.println(sentence.charAt(0));
     		if(sentence.charAt(0) == '1'){
-    			String[] strings = new String[4];
+    			String[] strings = new String[3];
     			int i = 0;
     			int fromIndex = 1;
-    			int endIndex = sentence.indexOf(32,fromIndex + 1);
+    			int endIndex = sentence.indexOf(' ',fromIndex + 1);
     			if(endIndex == -1)
     				return 0;
-    			while(i < 4){
-    				System.out.println("indexs: " + fromIndex + "and" + endIndex);
-    				strings[i] = sentence.substring(fromIndex + 1,endIndex);
-    				System.out.println(strings[i]);
-    				fromIndex = endIndex;
-    				if(sentence.indexOf(32,fromIndex + 1) != -1)
-    					endIndex = sentence.indexOf(32,fromIndex + 1);
-    				else
-    					endIndex = sentence.length();
-    				i++;
-    			}
-    	/*		int id = Integer.parseInt(strings[0]);
-    			int port = Integer.parseInt(strings[2]);
-    			int rs = Integer.parseInt(strings[3]);
-    			DeviceItem deviceitem;
-    			if(queryDevice(int id) == null){
-    				deviceitem = DeviceItem(id,strings[1],port,1,rs);
+    			strings[0] = sentence.substring(fromIndex + 1,endIndex);
+    			strings[2] = sentence.substring(endIndex + 1,sentence.length());
+    			
+    			strings[1]=clientsocket.getInetAddress().getHostAddress();
+    			System.out.println(strings[1]);
+    			int id = Integer.parseInt(strings[0]);
+    			int port = clientsocket.getPort();
+    			int rs = Integer.parseInt(strings[2]);
+    			
+    			database.Query query=new database.Query();
+    			database.DeviceItem deviceitem;
+    			deviceitem=query.queryDevice(id);
+    			if(deviceitem == null){
+    				deviceitem = new database.DeviceItem(id,strings[1],port,true,rs);
+    				query.alterDevice(deviceitem);
     			}
     			else{
-    				deviceitem = queryDevice(id);
-    				deviceitem.setIp(strings[2]);
+    				deviceitem.setIp(strings[1]);
     				deviceitem.setPort(port);
-    				deviceitem.isOnline(true);
+    				deviceitem.setIsOnline(true);
     				deviceitem.setRs(rs);
-    			}*/
+    				query.alterDevice(deviceitem);
+    			}
+    			query.closeConnection();
     			return 1;
     		}
-  /*  		if(sentence.charAt(0) == '2'){
-    			String[] strings = new String[5];
+		if(sentence.charAt(0) == '2'){
+    			String[] strings = new String[6];
     			int i = 0;
     			int fromIndex = 1;
     			int endIndex = sentence.indexOf(32,fromIndex + 1);
-    			if(endIndex == -1)
-    				retrun 0;
-    			while(i < 5){
+    			if (endIndex == -1)
+    				return 0;
+    			while(i < 6){
     				strings[i] = sentence.substring(fromIndex + 1,endIndex);
     				fromIndex = endIndex;
     				if(sentence.indexOf(32,fromIndex + 1)!= -1)
     					endIndex = sentence.indexOf(32,fromIndex + 1);
     				else
-    					endIndex = sentence.length;
+    					endIndex = sentence.length();
     				i++;
     			}
     			int id = Integer.parseInt(strings[0]);
     			int noa = Integer.parseInt(strings[4]);
-    			DeviceItem deviceitem = queryDevice(id);
-    			Date date = new Date;
-    			String time = date.toString();
-    			FileItem fileitem = FileItem(strings[1],strings[2],strings[3],time,noa,false);
-    			addFile(fileitem);
+    			boolean isf=Boolean.parseBoolean(strings[5]);
+    			
+    			database.Query query=new database.Query();
+    			database.DeviceItem deviceitem = query.queryDevice(id);
+    			Date date = new Date();
+    			@SuppressWarnings("deprecation")
+				String time = String.format("%d%d%d", date.getYear()+1900, date.getMonth()+1, date.getDate());
+    			database.FileItem fileitem = new database.FileItem(strings[1],strings[2],strings[3],time,noa,isf);
+    			query.addFile(fileitem);
                 //在这里调用发送碎片的函数
 
-
-
-
-    			//为文件创建目录
-    			creat_dir_of_file(strings[2],strings[3],time);
-    //			string dir = strings[2];
+    			query.closeConnection();
     			return 1;
-    		}*/
-    		return 0;
-    	}
-    	/*
-    	private int creat_dir_of_file(String filedir,String attribute,String time){
-    		int fromIndex,endIndex,startIndex;
-    		startIndex = filedir.indexOf('/');//文件目录的开始
-    		fromIndex = filedir.indexOf('/');//当前目录开始
-    		endIndex = filedir.indexOf('/',fromIndex + 1);//当前目录结束
-    		while(endIndex != -1){
-    			String nowdir = filedir.substring(fromIndex + 1,endIndex);//当前目录名
-    			String path = filedir.substring(startIndex,fromIndex + 1);//当前path
-    			if(queryFile(path,nowdir) == NULL){
-    				FileItem diritem = FileItem(nowdir,path,attribute,time,0,true);
-    				addFile(diritem);
-    			}
-    			fromIndex = endIndex;
-    			endIndex = filedir.indexOf("/",fromIndex + 1);
     		}
-    		return 1;
-    	}*/
+    		return 0;
+    	}    	
     }	
+	
+	
 	public static void main(String args[]) throws Exception{
-     	int port = Integer.parseInt(args[0]);
+     	int port = 6668;
       	try{
          Thread t = new ServerThread(port);
          t.start();
       	}catch(IOException e){
          e.printStackTrace();
-      	}	
+      	}
+      	
+      	
 	}
 }
