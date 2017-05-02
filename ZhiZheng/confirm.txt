@@ -1,0 +1,105 @@
+	public void confirm(int id) {
+		// 根据id查询,获得碎片数量
+		int num = 0;
+		String sql = "select noa from file where id=?";
+		try {
+			PreparedStatement state = conn.prepareStatement(sql);
+			state.setInt(1, id);
+			ResultSet rs = state.executeQuery();
+			if (rs.next()) {
+				num = rs.getInt("noa");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		// 根据上面的方法,获得所有的在线主机
+		DeviceItem[] di = queryOnlineDevice();
+
+		ArrayList<Socket> listAll = new ArrayList<Socket>();
+
+		// 将获得所有在线主机建立socket，并保存在Arraylist中
+		for (int i = 0; i < di.length; i++) {
+			try {
+				// for循环创建socket
+				Socket socket = new Socket(di[i].getIp(), di[i].getPort());
+				listAll.add(socket);// 添加到集合中
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		Random rd = new Random();
+		// 根据碎片数量确定要发送碎片数量的主机
+		if (num  <= di.length) {// 如果碎片数量小于在线主机数
+			// 随机产生num个主机
+			ArrayList<Socket> list1 = new ArrayList<Socket>();
+			while (list1.size() < num) {
+				int t = rd.nextInt(listAll.size());
+				Socket s = listAll.get(t);
+				if (!list1.contains(s)) {
+					list1.add(s);
+				}
+			}
+			BufferedOutputStream bos = null;
+			for (int i = 0; i < list1.size(); i++) {
+				try {
+					bos = new BufferedOutputStream(list1
+							.get(i).getOutputStream());//获得socket管道输出流
+					bos.write(1);
+					bos.flush();
+					addFragment(id, list1.get(i).getInetAddress().getHostAddress());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			try {
+				bos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		} else {// 如果碎片数量大于在线主机数
+			int[] n = new int[di.length];//新建一个数组存放每个主机要发送的碎片数量
+			//首先所有要发送的碎片数量为num/di.length
+			for (int i = 0; i < n.length; i++) {
+				n[i] = num/di.length;
+			}
+			int m = num - num/di.length;//剩余的碎片数量
+			for (int i = 0; i < m; i++) {//剩余的碎片数量存放在前面要发送的主机上
+				n[i] = n[i] + 1;
+			}
+			
+			ArrayList<Socket> list2 = new ArrayList<Socket>();
+			while(list2.size()<di.length){
+				int t = rd.nextInt(listAll.size());
+				Socket s = listAll.get(t);
+				if (!list2.contains(s)) {
+					list2.add(s);
+				}
+			}
+			
+			BufferedOutputStream bos = null;
+			for (int i = 0; i < list2.size(); i++) {
+				try {
+					bos = new BufferedOutputStream(list2
+							.get(i).getOutputStream());//获得socket管道输出流
+					bos.write(n[i]);
+					bos.flush();
+					for (int j = 0; j < n[i]; j++) {
+						addFragment(id, list2.get(i).getInetAddress().getHostAddress());
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			try {
+				bos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+
