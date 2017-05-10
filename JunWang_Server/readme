@@ -2,6 +2,8 @@
 
 一、数据库访问
 
+(可以使用init.sql建立一个测试数据库)
+
 数据库访问目前通过database包进行，database中定义了4个类，其中FileItem、DeviceItem、RequestItem3个类均为为便于执行数据库操作定义的数据结构：
 
 FileItem类是表示文件的数据结构，其包括成员变量
@@ -66,9 +68,13 @@ public DeviceItem queryDevice(int id)
 参数：设备ID
 返回值：如果能在数据库中找到指定id的设备，返回一个包含其信息的DeviceItem类实例；否则返回null
 
-public RequestItem queryQuestById(int id)
+public RequestItem queryRequestById(int id)
 参数：请求ID
 返回值：如果能在数据库中找到指定id的请求，返回一个包含其信息的RequestItem类实例；否则返回null
+
+public RequestItem queryFirstRequest(int id)
+参数：设备ID
+返回值：如果能在数据库中找到指定id的设备的请求，返回包含一个符合条件的请求的信息的RequestItem类实例；否则返回null
 
 public RequestItem[] queryRequest(int deviceId)
 参数：设备ID

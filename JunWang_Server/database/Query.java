@@ -11,7 +11,6 @@ public class Query {
     
     Connection conn = null;
 	
-	//���캯��
 	public Query(){
 		try{
             Class.forName(JDBC_DRIVER);
@@ -22,7 +21,6 @@ public class Query {
 		}
     }
 	
-	//�൱������������ʵ��������ǰӦ����
 	public void closeConnection(){
 		try{
             if (conn!=null) 
@@ -33,9 +31,6 @@ public class Query {
         }
 	}
 	
-	//��ѯ�ļ� 
-	//�������ļ�·�����ļ���
-	//�ɹ�����һ��������Ӧ�����FileItemʵ�������򷵻�null
 	public FileItem queryFile(String path,String name){
         Statement stmt = null;
         ResultSet rs = null;
@@ -76,9 +71,6 @@ public class Query {
         return fileItem;
 	}
 	
-	//��ѯ�ļ� 
-	//�������ļ�·��
-	//����һ��·���µ������ļ����б�
 	public FileItem[] queryFile(String path){
 		Statement stmt = null;
         ResultSet rs = null;
@@ -136,9 +128,6 @@ public class Query {
         return fileArray;
 	}
 	
-	//��ѯ�ļ���Ƭ
-	//��������ƬID
-	//�ɹ�����һ������������λ�õ��ַ��������򷵻�null
 	public String queryfragment(int id){
         Statement stmt = null;
         ResultSet rs = null;
@@ -172,9 +161,6 @@ public class Query {
         return path;
 	}
 	
-	//��ѯ�豸
-	//���������
-	//����һ���������������豸��DeviceItem�б�
 	public DeviceItem[] queryOnlineDevice(){
         Statement stmt = null;
         ResultSet rs = null;
@@ -230,9 +216,6 @@ public class Query {
         return deviceArray;
 	}
 
-	//��ѯ�����豸
-	//�������豸ID
-	//�ɹ�����һ��������Ӧ�����DeviceItemʵ�������򷵻�null
 	public DeviceItem queryDevice(int id){
 		Statement stmt = null;
         ResultSet rs = null;
@@ -272,7 +255,7 @@ public class Query {
         return deviceItem;
 	}
 	
-	public RequestItem queryQuestById(int id){
+	public RequestItem queryRequestById(int id){
         Statement stmt = null;
         ResultSet rs = null;
         RequestItem requestItem = null;
@@ -288,6 +271,44 @@ public class Query {
                 int did = rs.getInt("DEVICEID");
     
                 requestItem=new RequestItem(id,type,fid,did);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }        
+        finally{
+            try{
+                if(rs!=null && !rs.isClosed()) 
+                	rs.close();
+            }
+            catch(Exception e){
+            }
+            try{
+                if(stmt!=null && !stmt.isClosed()) 
+                	stmt.close();
+            }
+            catch(Exception e){
+            }            
+        }
+        return requestItem;
+	}
+	
+	public RequestItem queryFirstRequest(int id){
+        Statement stmt = null;
+        ResultSet rs = null;
+        RequestItem requestItem = null;
+        try{
+            stmt = conn.createStatement();
+            String sql;
+            sql = String.format("SELECT * FROM DFS.REQUEST WHERE DEVICEID='%d' LIMIT 1",id);
+            rs = stmt.executeQuery(sql);
+            
+            if (rs.next()) {
+            	int rid = rs.getInt("ID");
+                int type = rs.getInt("TYPE");
+                int fid = rs.getInt("FRAGMENTID");
+    
+                requestItem=new RequestItem(rid,type,fid,id);
             }
         }
         catch(Exception e){
@@ -396,9 +417,6 @@ public class Query {
         }
 	}
 	
-	//�����ļ� 
-	//�������ļ���Ӧ��FileItemʵ��������ID�ֶ�û������
-	//�ɹ������ļ�id��ʧ�ܷ���-1
 	public int addFile(FileItem file){
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -443,10 +461,6 @@ public class Query {
         return suc;
 	}
 
-	//ɾ���ļ�
-	//�������ļ���ID
-	//�ɹ�����1��ʧ�ܷ���-1
-	//ɾ���ļ�����������Ƭ���ݿ���ɾ���ļ���Ӧ����Ƭ
 	public int deleteFile(int id){
 		Statement stmt = null;
         int suc = -1;
@@ -474,9 +488,6 @@ public class Query {
         return suc;
 	}
 	
-	//�޸��ļ� 
-	//�����������ļ���Ӧ���Ե�FileItemʵ��(����id��������ݿ������е�idƥ��)
-	//�ɹ�����1��ʧ�ܷ���-1
 	public int alterFile(FileItem file){
 		Statement stmt = null;
         int suc = -1;
@@ -511,9 +522,6 @@ public class Query {
         return suc;
 	}
 	
-	//�޸��豸
-	//�������豸��Ӧ��DeviceItemʵ��(����id��������ݿ������е�idƥ��)
-	//�ɹ�����1��ʧ�ܷ���-1
 	public int alterDevice(DeviceItem device){
 		Statement stmt = null;
         int suc = -1;
@@ -548,11 +556,6 @@ public class Query {
         return suc;
 	}
 	
-	//������ɾ�������Ҫ����Ա�ֶ�����������ִ�У�������ؽӿں���
-	
-	//������Ƭ
-	//��������ƬID����Ƭ����λ��
-	//�ɹ�����1��ʧ�ܷ���-1
 	public int addFragment(int id,String path){
 		Statement stmt = null;
         int suc = -1;
@@ -581,9 +584,6 @@ public class Query {
         return suc;
 	}
 
-	//ɾ����Ƭ
-	//��������ƬID
-	//�ɹ�����0��ʧ�ܷ���-1
 	public int deleteFragment(int id){
 		Statement stmt = null;
         int suc = -1;
