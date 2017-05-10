@@ -11,7 +11,7 @@ public class Query {
     
     Connection conn = null;
 	
-	//¹¹Ôìº¯Êý
+	//ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½
 	public Query(){
 		try{
             Class.forName(JDBC_DRIVER);
@@ -22,7 +22,7 @@ public class Query {
 		}
     }
 	
-	//Ïàµ±ÓÚÎö¹¹º¯Êý£¬ÊµÀý±»»ØÊÕÇ°Ó¦µ÷ÓÃ
+	//ï¿½àµ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°Ó¦ï¿½ï¿½ï¿½ï¿½
 	public void closeConnection(){
 		try{
             if (conn!=null) 
@@ -33,9 +33,9 @@ public class Query {
         }
 	}
 	
-	//²éÑ¯ÎÄ¼þ 
-	//²ÎÊý£ºÎÄ¼þÂ·¾¶¡¢ÎÄ¼þÃû
-	//³É¹¦·µ»ØÒ»¸ö°üº¬ÏàÓ¦±íÏîµÄFileItemÊµÀý£»·ñÔò·µ»Ønull
+	//ï¿½ï¿½Ñ¯ï¿½Ä¼ï¿½ 
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Â·ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½
+	//ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½FileItemÊµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿½null
 	public FileItem queryFile(String path,String name){
         Statement stmt = null;
         ResultSet rs = null;
@@ -76,9 +76,9 @@ public class Query {
         return fileItem;
 	}
 	
-	//²éÑ¯ÎÄ¼þ 
-	//²ÎÊý£ºÎÄ¼þÂ·¾¶
-	//·µ»ØÒ»¸öÂ·¾¶ÏÂµÄËùÓÐÎÄ¼þµÄÁÐ±í
+	//ï¿½ï¿½Ñ¯ï¿½Ä¼ï¿½ 
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½Â·ï¿½ï¿½
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Â·ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 	public FileItem[] queryFile(String path){
 		Statement stmt = null;
         ResultSet rs = null;
@@ -136,9 +136,9 @@ public class Query {
         return fileArray;
 	}
 	
-	//²éÑ¯ÎÄ¼þËéÆ¬
-	//²ÎÊý£ºËéÆ¬ID
-	//³É¹¦·µ»ØÒ»¸ö°üº¬ÆäÎïÀíÎ»ÖÃµÄ×Ö·û´®£»·ñÔò·µ»Ønull
+	//ï¿½ï¿½Ñ¯ï¿½Ä¼ï¿½ï¿½ï¿½Æ¬
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¬ID
+	//ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ãµï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿½null
 	public String queryfragment(int id){
         Statement stmt = null;
         ResultSet rs = null;
@@ -172,9 +172,9 @@ public class Query {
         return path;
 	}
 	
-	//²éÑ¯Éè±¸
-	//ÎÞÊäÈë²ÎÊý
-	//·µ»ØÒ»¸ö°üº¬ËùÓÐÔÚÏßÉè±¸µÄDeviceItemÁÐ±í
+	//ï¿½ï¿½Ñ¯ï¿½è±¸
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è±¸ï¿½ï¿½DeviceItemï¿½Ð±ï¿½
 	public DeviceItem[] queryOnlineDevice(){
         Statement stmt = null;
         ResultSet rs = null;
@@ -230,9 +230,9 @@ public class Query {
         return deviceArray;
 	}
 
-	//²éÑ¯ÔÚÏßÉè±¸
-	//²ÎÊý£ºÉè±¸ID
-	//³É¹¦·µ»ØÒ»¸ö°üº¬ÏàÓ¦±íÏîµÄDeviceItemÊµÀý£»·ñÔò·µ»Ønull
+	//ï¿½ï¿½Ñ¯ï¿½ï¿½ï¿½ï¿½ï¿½è±¸
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è±¸ID
+	//ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½DeviceItemÊµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿½null
 	public DeviceItem queryDevice(int id){
 		Statement stmt = null;
         ResultSet rs = null;
@@ -272,9 +272,133 @@ public class Query {
         return deviceItem;
 	}
 	
-	//ÐÂÔöÎÄ¼þ 
-	//²ÎÊý£ºÎÄ¼þ¶ÔÓ¦µÄFileItemÊµÀý£¬ÆäÖÐID×Ö¶ÎÃ»ÓÐÒâÒå
-	//³É¹¦·µ»ØÎÄ¼þid£¬Ê§°Ü·µ»Ø-1
+	public RequestItem queryQuestById(int id){
+        Statement stmt = null;
+        ResultSet rs = null;
+        RequestItem requestItem = null;
+        try{
+            stmt = conn.createStatement();
+            String sql;
+            sql = String.format("SELECT * FROM DFS.REQUEST WHERE ID='%d'",id);
+            rs = stmt.executeQuery(sql);
+            
+            if (rs.next()) {
+                int type = rs.getInt("TYPE");
+                int fid = rs.getInt("FRAGMENTID");
+                int did = rs.getInt("DEVICEID");
+    
+                requestItem=new RequestItem(id,type,fid,did);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }        
+        finally{
+            try{
+                if(rs!=null && !rs.isClosed()) 
+                	rs.close();
+            }
+            catch(Exception e){
+            }
+            try{
+                if(stmt!=null && !stmt.isClosed()) 
+                	stmt.close();
+            }
+            catch(Exception e){
+            }            
+        }
+        return requestItem;
+	}	
+	
+	public RequestItem[] queryRequest(int deviceId){
+		Statement stmt = null;
+        ResultSet rs = null;
+        RequestItem requsetArray[] = null;
+        
+        int id, type, fid, did;
+        
+        int count,i;
+        
+        try{
+            stmt = conn.createStatement();
+            String sql;
+            sql = String.format("SELECT * FROM DFS.REQUEST WHERE DEVICEID='%d'",deviceId);
+            rs = stmt.executeQuery(sql);
+            
+            if (!rs.last())
+            	return null;           	
+            count = rs.getRow();
+            requsetArray=new RequestItem[count];
+            i=0;
+            rs.first();
+            
+            while (i<count) {
+                id = rs.getInt("ID");                
+                type = rs.getInt("TYPE");
+                did = rs.getInt("DEVICEID");
+                fid = rs.getInt("FRAGMENTID");
+    
+                requsetArray[i]=new RequestItem(id,type,fid,did);
+                rs.next();
+                i++;
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }        
+        finally{
+            try{
+                if(rs!=null && !rs.isClosed()) 
+                	rs.close();
+            }
+            catch(Exception e){
+            }
+            try{
+                if(stmt!=null && !stmt.isClosed()) 
+                	stmt.close();
+            }
+            catch(Exception e){
+            }            
+        }
+        return requsetArray;
+	}
+	
+	public int queryRequestNumbers(int deviceId){
+		Statement stmt = null;
+        ResultSet rs = null;       
+        
+        try{
+            stmt = conn.createStatement();
+            String sql;
+            sql = String.format("SELECT COUNT(*) FROM DFS.REQUEST WHERE DEVICEID='%d'",deviceId);
+            rs = stmt.executeQuery(sql);
+                        
+            rs.next();
+            return rs.getInt(1);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }        
+        finally{
+            try{
+                if(rs!=null && !rs.isClosed()) 
+                	rs.close();
+            }
+            catch(Exception e){
+            }
+            try{
+                if(stmt!=null && !stmt.isClosed()) 
+                	stmt.close();
+            }
+            catch(Exception e){
+            }            
+        }
+	}
+	
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ 
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½FileItemÊµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½IDï¿½Ö¶ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½idï¿½ï¿½Ê§ï¿½Ü·ï¿½ï¿½ï¿½-1
 	public int addFile(FileItem file){
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -319,10 +443,10 @@ public class Query {
         return suc;
 	}
 
-	//É¾³ýÎÄ¼þ
-	//²ÎÊý£ºÎÄ¼þµÄID
-	//³É¹¦·µ»Ø1£¬Ê§°Ü·µ»Ø-1
-	//É¾³ýÎÄ¼þ²¢²»»áÔÚËéÆ¬Êý¾Ý¿âÖÐÉ¾³ýÎÄ¼þ¶ÔÓ¦µÄËéÆ¬
+	//É¾ï¿½ï¿½ï¿½Ä¼ï¿½
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ID
+	//ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Ê§ï¿½Ü·ï¿½ï¿½ï¿½-1
+	//É¾ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¬ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Æ¬
 	public int deleteFile(int id){
 		Statement stmt = null;
         int suc = -1;
@@ -350,9 +474,9 @@ public class Query {
         return suc;
 	}
 	
-	//ÐÞ¸ÄÎÄ¼þ 
-	//²ÎÊý£º°üº¬ÎÄ¼þÏàÓ¦ÊôÐÔµÄFileItemÊµÀý(ÆäÖÐid±ØÐëºÍÊý¾Ý¿âÖÐÒÑÓÐµÄidÆ¥Åä)
-	//³É¹¦·µ»Ø1£¬Ê§°Ü·µ»Ø-1
+	//ï¿½Þ¸ï¿½ï¿½Ä¼ï¿½ 
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Ôµï¿½FileItemÊµï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½idÆ¥ï¿½ï¿½)
+	//ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Ê§ï¿½Ü·ï¿½ï¿½ï¿½-1
 	public int alterFile(FileItem file){
 		Statement stmt = null;
         int suc = -1;
@@ -387,9 +511,9 @@ public class Query {
         return suc;
 	}
 	
-	//ÐÞ¸ÄÉè±¸
-	//²ÎÊý£ºÉè±¸¶ÔÓ¦µÄDeviceItemÊµÀý(ÆäÖÐid±ØÐëºÍÊý¾Ý¿âÖÐÒÑÓÐµÄidÆ¥Åä)
-	//³É¹¦·µ»Ø1£¬Ê§°Ü·µ»Ø-1
+	//ï¿½Þ¸ï¿½ï¿½è±¸
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è±¸ï¿½ï¿½Ó¦ï¿½ï¿½DeviceItemÊµï¿½ï¿½(ï¿½ï¿½ï¿½ï¿½idï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ðµï¿½idÆ¥ï¿½ï¿½)
+	//ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Ê§ï¿½Ü·ï¿½ï¿½ï¿½-1
 	public int alterDevice(DeviceItem device){
 		Statement stmt = null;
         int suc = -1;
@@ -424,11 +548,11 @@ public class Query {
         return suc;
 	}
 	
-	//ÐÂÔö¡¢É¾³ýÉè±ðÐèÒª¹ÜÀíÔ±ÊÖ¶¯²Ù×÷·þÎñÆ÷Ö´ÐÐ£¬¹ÊÎÞÏà¹Ø½Ó¿Úº¯Êý
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Ô±ï¿½Ö¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½Ð£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø½Ó¿Úºï¿½ï¿½ï¿½
 	
-	//ÐÂÔöËéÆ¬
-	//²ÎÊý£ºËéÆ¬ID£¬ËéÆ¬ÎïÀíÎ»ÖÃ
-	//³É¹¦·µ»Ø1£¬Ê§°Ü·µ»Ø-1
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¬
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¬IDï¿½ï¿½ï¿½ï¿½Æ¬ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
+	//ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Ê§ï¿½Ü·ï¿½ï¿½ï¿½-1
 	public int addFragment(int id,String path){
 		Statement stmt = null;
         int suc = -1;
@@ -457,9 +581,9 @@ public class Query {
         return suc;
 	}
 
-	//É¾³ýËéÆ¬
-	//²ÎÊý£ºËéÆ¬ID
-	//³É¹¦·µ»Ø0£¬Ê§°Ü·µ»Ø-1
+	//É¾ï¿½ï¿½ï¿½ï¿½Æ¬
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¬ID
+	//ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½Ê§ï¿½Ü·ï¿½ï¿½ï¿½-1
 	public int deleteFragment(int id){
 		Statement stmt = null;
         int suc = -1;
@@ -467,6 +591,72 @@ public class Query {
             stmt = conn.createStatement();
             String sql;
 	        sql = String.format("DELETE FROM DFS.FRAGMENT WHERE ID=%d",id);
+            suc = stmt.executeUpdate(sql);
+            if (suc>0)
+            	suc=1;
+            else
+            	suc=-1;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }        
+        finally{
+            try{
+                if(stmt!=null && !stmt.isClosed()) 
+                	stmt.close();
+            }
+            catch(Exception e){
+            }            
+        }
+        return suc;
+	}
+	
+	public int addRequest(RequestItem request){
+		Statement stmt = null;
+		ResultSet rs = null;
+        int suc = -1;
+        try{
+            stmt = conn.createStatement();
+            String sql;
+            sql = String.format("INSERT INTO DFS.REQUEST (TYPE,FRAGMENTID,DEVICEID) "
+            		+ "VALUES ('%d','%d','%d');",
+            		request.getType(), request.getFragmentId(), request.getDeviceId());
+            suc = stmt.executeUpdate(sql);
+            if (suc>0){
+            	rs = stmt.executeQuery("select LAST_INSERT_ID()");
+            	rs.next();
+            	suc=rs.getInt(1);
+            }
+            else
+            	suc=-1;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }        
+        finally{
+            try{
+                if(rs!=null && !rs.isClosed()) 
+                	rs.close();
+            }
+            catch(Exception e){
+            }
+            try{
+                if(stmt!=null && !stmt.isClosed()) 
+                	stmt.close();
+            }
+            catch(Exception e){
+            }            
+        }
+        return suc;
+	}
+	
+	public int deleteRequest(int id){
+		Statement stmt = null;
+        int suc = -1;
+        try{
+            stmt = conn.createStatement();
+            String sql;
+            sql = String.format("DELETE FROM DFS.REQUEST WHERE ID=%d",id);
             suc = stmt.executeUpdate(sql);
             if (suc>0)
             	suc=1;

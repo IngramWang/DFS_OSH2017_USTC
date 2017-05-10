@@ -2,8 +2,8 @@ package database;
 
 public class FileItem {
 	
-	//ÒÔÏÂ±äÁ¿ÒÀ´ÎÎª
-	//ÎÄ¼şID£¨ËéÆ¬Ç°×º£©|ÎÄ¼şÃû|ÎÄ¼şÂß¼­Â·¾¶|ÎÄ¼şÊôĞÔ|ĞŞ¸ÄÊ±¼ä|ËéÆ¬ÊıÁ¿|ÎÄ¼şorÎÄ¼ş¼Ğ	
+	//ï¿½ï¿½ï¿½Â±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª
+	//ï¿½Ä¼ï¿½IDï¿½ï¿½ï¿½ï¿½Æ¬Ç°×ºï¿½ï¿½|ï¿½Ä¼ï¿½ï¿½ï¿½|ï¿½Ä¼ï¿½ï¿½ß¼ï¿½Â·ï¿½ï¿½|ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½|ï¿½Ş¸ï¿½Ê±ï¿½ï¿½|ï¿½ï¿½Æ¬ï¿½ï¿½ï¿½ï¿½|ï¿½Ä¼ï¿½orï¿½Ä¼ï¿½ï¿½ï¿½	
 	private int id;
 	private String name;
 	private String path;
@@ -12,7 +12,7 @@ public class FileItem {
 	private int noa;
 	private boolean isFolder;
 	
-	//¹¹Ôìº¯Êı£¬Ö»ÄÜÔÚ°üÄÚµ÷ÓÃ
+	//ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½Ú°ï¿½ï¿½Úµï¿½ï¿½ï¿½
 	FileItem(int id,String name,String path,String attribute,String time,int noa,boolean isFolder) {
 		this.id=id;
 		this.name=name;
@@ -23,7 +23,7 @@ public class FileItem {
 		this.isFolder=isFolder;
 	}
 	
-	//¹¹Ôìº¯Êı£¬²ÎÊıÎª³ıÁËIDÍâµÄÈ«²¿ÊôĞÔ
+	//ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	public FileItem(String name,String path,String attribute,String time,int noa,boolean isFolder){
 		this.id=0;
 		this.name=name;
@@ -34,7 +34,7 @@ public class FileItem {
 		this.isFolder=isFolder;
 	}
 
-	//¸÷ÀàgetterÓësetter£¬×¢Òâ£ºÃ»ÓĞidµÄsetter
+	//ï¿½ï¿½ï¿½ï¿½getterï¿½ï¿½setterï¿½ï¿½×¢ï¿½â£ºÃ»ï¿½ï¿½idï¿½ï¿½setter
 	public int getId() {
 		return id;
 	}
