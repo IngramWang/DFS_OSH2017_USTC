@@ -417,6 +417,74 @@ public class Query {
         }
 	}
 	
+	public String queryUserPasswd(String name){
+        Statement stmt = null;
+        ResultSet rs = null;
+        String passwd = null;
+        try{
+            stmt = conn.createStatement();
+            String sql;
+            sql = String.format("SELECT * FROM DFS.USER WHERE NAME='%s'",name);
+            rs = stmt.executeQuery(sql);
+            
+            if (rs.next()) {
+            	passwd = rs.getString("PASSWD");
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }        
+        finally{
+            try{
+                if(rs!=null && !rs.isClosed()) 
+                	rs.close();
+            }
+            catch(Exception e){
+            }
+            try{
+                if(stmt!=null && !stmt.isClosed()) 
+                	stmt.close();
+            }
+            catch(Exception e){
+            }            
+        }
+        return passwd;
+	}	
+	
+	public int queryUserID(String name){
+        Statement stmt = null;
+        ResultSet rs = null;
+        int id = -1;
+        try{
+            stmt = conn.createStatement();
+            String sql;
+            sql = String.format("SELECT * FROM DFS.USER WHERE NAME='%s'",name);
+            rs = stmt.executeQuery(sql);
+            
+            if (rs.next()) {
+            	id = rs.getInt("ID");
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }        
+        finally{
+            try{
+                if(rs!=null && !rs.isClosed()) 
+                	rs.close();
+            }
+            catch(Exception e){
+            }
+            try{
+                if(stmt!=null && !stmt.isClosed()) 
+                	stmt.close();
+            }
+            catch(Exception e){
+            }            
+        }
+        return id;
+	}
+	
 	public int addFile(FileItem file){
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -657,6 +725,99 @@ public class Query {
             stmt = conn.createStatement();
             String sql;
             sql = String.format("DELETE FROM DFS.REQUEST WHERE ID=%d",id);
+            suc = stmt.executeUpdate(sql);
+            if (suc>0)
+            	suc=1;
+            else
+            	suc=-1;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }        
+        finally{
+            try{
+                if(stmt!=null && !stmt.isClosed()) 
+                	stmt.close();
+            }
+            catch(Exception e){
+            }            
+        }
+        return suc;
+	}
+	
+	public int addUser(String name, String passwd){
+		Statement stmt = null;
+		ResultSet rs = null;
+	    int suc = -1;
+	    try{
+	        stmt = conn.createStatement();
+	        String sql;
+	        sql = String.format("INSERT INTO DFS.USER (NAME,PASSWD) "
+	        		+ "VALUES ('%s','%s');", name, passwd);
+	        suc = stmt.executeUpdate(sql);
+	        if (suc>0){
+	        	rs = stmt.executeQuery("select LAST_INSERT_ID()");
+	        	rs.next();
+	        	suc=rs.getInt(1);
+	        }
+	        else
+	        	suc=-1;
+	    }
+	    catch(Exception e){
+	        e.printStackTrace();
+	    }        
+	    finally{
+	        try{
+	            if(rs!=null && !rs.isClosed()) 
+	            	rs.close();
+	        }
+	        catch(Exception e){
+	        }
+	        try{
+	            if(stmt!=null && !stmt.isClosed()) 
+	            	stmt.close();
+	        }
+	        catch(Exception e){
+	        }            
+	    }
+	    return suc;
+	}
+	
+	public int alterUser(int id, String name, String passwd){
+		Statement stmt = null;
+        int suc = -1;
+        try{
+            stmt = conn.createStatement();
+            String sql;
+            sql = String.format("UPDATE DFS.USER SET NAME='%s',PASSWD=%s WHERE id=%d;",
+            		name, passwd, id);
+            suc = stmt.executeUpdate(sql);
+            if (suc>0)
+            	return 1;
+            else
+            	return -1;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }        
+        finally{
+            try{
+                if(stmt!=null && !stmt.isClosed()) 
+                	stmt.close();
+            }
+            catch(Exception e){
+            }            
+        }
+        return suc;
+	}
+	
+	public int deleteUser(int id){
+		Statement stmt = null;
+        int suc = -1;
+        try{
+            stmt = conn.createStatement();
+            String sql;
+            sql = String.format("DELETE FROM DFS.USER WHERE ID=%d",id);
             suc = stmt.executeUpdate(sql);
             if (suc>0)
             	suc=1;
