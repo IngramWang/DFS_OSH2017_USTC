@@ -89,7 +89,7 @@ class ClientThread extends Thread {
 
 			query.closeConnection();
 			return 1;
-		} else if (sentence.charAt(0) == '2') {
+		} /*else if (sentence.charAt(0) == '2') {
 			String[] strings;
 			strings = sentence.split(" ");
 			int id = Integer.parseInt(strings[1]);
@@ -104,12 +104,13 @@ class ClientThread extends Thread {
 			database.FileItem fileitem = new database.FileItem(strings[2], strings[3], strings[4], time, noa, isf);
 			int fid = query.addFile(fileitem);
 
-			outToClient.writeBytes(String.format("received with fileId %d\n", fid));
+			outToClient.writeBytes(String.format("FileId: %d\n", fid));
 			outToClient.flush();
 			
 			query.closeConnection();
 			return 1;
-		} else if (sentence.charAt(0) == '3') {
+		} */
+		else if (sentence.charAt(0) == '2') {
 			String s[];
 			s = sentence.split(" ");
 
@@ -130,7 +131,8 @@ class ClientThread extends Thread {
 				outToClient.flush();
 			}
 			return 1;
-		} else if (sentence.charAt(0) == '4') {
+		} /* move to data connect
+		else if (sentence.charAt(0) == '4') {
 			String s[];
 			s = sentence.split(" ");
 
@@ -158,10 +160,10 @@ class ClientThread extends Thread {
 				query.closeConnection();
 				return 1;
 			}		
-		}
+		}*/
 		return 0;
 	}
-
+/*
 	public static int confirm(int id, int num) {
 
 		database.Query query = new database.Query();
@@ -183,7 +185,7 @@ class ClientThread extends Thread {
 			for (int i = 0; i < num; i++) {
 				try {
 					// 将碎片分配到该主机
-					query.addRequest(new database.RequestItem(1, id * 100 + i, di[(i + t) % size].getId()));
+					query.addRequest(new database.RequestItem(2, id * 100 + i, di[(i + t) % size].getId()));
 					query.addFragment(id * 100 + i, Integer.toString(di[(i + t) % size].getId()));
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -209,7 +211,7 @@ class ClientThread extends Thread {
 				try {
 					for (int j = 0; j < n[i]; j++) {
 						// 碎片发送函数
-						query.addRequest(new database.RequestItem(1, id * 100 + t, di[i].getId()));
+						query.addRequest(new database.RequestItem(2, id * 100 + t, di[i].getId()));
 						query.addFragment(id * 100 + t, Integer.toString(di[i].getId()));
 						t++;
 					}
@@ -220,5 +222,5 @@ class ClientThread extends Thread {
 		}
 		return 0;
 	}
-
+*/
 }
