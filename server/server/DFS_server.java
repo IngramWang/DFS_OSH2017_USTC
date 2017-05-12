@@ -1,3 +1,5 @@
+package server;
+
 import java.io.IOException;
 
 public class DFS_server {

@@ -2,6 +2,31 @@
 
 一、数据库访问
 
+-------------------------------5/11 new--------------------
+public String queryUserPasswd(String name)
+参数：用户名
+返回值：如果能在数据库中找到名为name的用户，返回其密码；否则返回null
+
+public int queryUserID(String name)
+参数：用户名
+返回值：如果能在数据库中找到名为name的用户，返回其id；否则返回-1
+
+public int addUser(String name, String passwd)
+参数：用户的用户名与密码
+作用：在数据库中插入该用户
+返回值：成功返回用户id，失败返回-1
+
+public int alterUser(int id, String name, String passwd)
+参数：用户的ID,用户名与密码
+作用：修改ID为id的用户的用户名与密码为name,passwd
+返回值：成功返回1，失败返回-1
+
+public int deleteUser(int id)
+参数：用户ID
+作用：在数据库中删除id指定的用户
+返回值：成功返回1，失败返回-1
+-----------------------------------------------------------
+
 (可以使用init.sql建立一个测试数据库)
 
 数据库访问目前通过database包进行，database中定义了4个类，其中FileItem、DeviceItem、RequestItem3个类均为为便于执行数据库操作定义的数据结构：
@@ -140,22 +165,27 @@ ConnectItem类是一个数据结构，用于管理链接（只在包内使用）
 心跳链接报文
 客户端发送：
 1 {设备id} {客户端剩余空间}
-服务器回复
+服务器回复:
 received with {等待客户端处理的请求数量} unread request!
 
 上传文件报文
 客户端发送：
 2 {设备id} {文件名} {路径} {属性} {碎片数量} {是不是文件夹}
 服务器回复
-received! {文件ID}
-接下来进入碎片传输函数
+received with fileId {文件ID}
 
 处理请求报文
 客户端发送：
 3 {设备id}
-服务器回复
+服务器回复:
 {请求ID} {碎片ID} {请求类型}
 接下来进入相应的处理函数
+
+客户端删除碎片回复
+客户端发送:
+4 {请求ID} {设备id}
+服务器回复:
+received!
 
 中断连接报文
 客户端发送：
