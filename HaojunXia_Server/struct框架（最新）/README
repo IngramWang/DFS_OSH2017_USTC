@@ -1,0 +1,4 @@
+直接将该
+DFS文件夹拷贝到tomcat服务器webapps目录下  重启tomcat  在浏览器输入：localhost：8080/DFS/
+就可以看到现在的主页
+现在只是界面  登录和注册的后台js和action正在编写
