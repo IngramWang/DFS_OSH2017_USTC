@@ -42,6 +42,8 @@ public class Client {
 			controlPort=scanner.nextInt();
 			dataPort=scanner.nextInt();
 			clientId=scanner.nextInt();
+				//empty line
+				uploadFolder=scanner.nextLine();
 			uploadFolder=scanner.nextLine();
 			fragmentFolder=scanner.nextLine();
 			tmpFragmentFolder=scanner.nextLine();

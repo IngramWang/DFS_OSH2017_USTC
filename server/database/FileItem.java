@@ -1,9 +1,7 @@
 package database;
 
 public class FileItem {
-	
-	//���±�������Ϊ
-	//�ļ�ID����Ƭǰ׺��|�ļ���|�ļ��߼�·��|�ļ�����|�޸�ʱ��|��Ƭ����|�ļ�or�ļ���	
+		
 	private int id;
 	private String name;
 	private String path;
@@ -12,7 +10,6 @@ public class FileItem {
 	private int noa;
 	private boolean isFolder;
 	
-	//���캯����ֻ���ڰ��ڵ���
 	FileItem(int id,String name,String path,String attribute,String time,int noa,boolean isFolder) {
 		this.id=id;
 		this.name=name;
@@ -23,7 +20,6 @@ public class FileItem {
 		this.isFolder=isFolder;
 	}
 	
-	//���캯��������Ϊ����ID���ȫ������
 	public FileItem(String name,String path,String attribute,String time,int noa,boolean isFolder){
 		this.id=0;
 		this.name=name;
@@ -34,7 +30,6 @@ public class FileItem {
 		this.isFolder=isFolder;
 	}
 
-	//����getter��setter��ע�⣺û��id��setter
 	public int getId() {
 		return id;
 	}

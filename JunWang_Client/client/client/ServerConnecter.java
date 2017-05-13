@@ -65,6 +65,10 @@ public class ServerConnecter extends Thread {
 					outToServer.flush();
 					input=inFromServer.readLine();
 					str=input.split(" ");
+					
+					//debug
+					System.out.println(input);
+					
 					int unreadRequest=Integer.parseInt(str[2]);
 					while (unreadRequest>0){
 						outToServer.writeBytes(String.format("2 %d\n", clientId));
@@ -75,7 +79,8 @@ public class ServerConnecter extends Thread {
 						int fragmentId=Integer.parseInt(str[1]);
 						int type=Integer.parseInt(str[2]);
 						FragmentManager fManager=new FragmentManager(requestId, fragmentId, type);
-						fManager.submit();
+						//fManager.submit();
+						unreadRequest--;
 					}
 					
 					Thread.sleep(5000);				

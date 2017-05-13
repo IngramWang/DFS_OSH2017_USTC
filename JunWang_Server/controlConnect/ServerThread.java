@@ -1,15 +1,19 @@
-package server;
+package controlConnect;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-class ServerThread extends Thread {
+public class ServerThread extends Thread {
+	
 		ServerSocket server;
+		
 		public ServerThread(int port) throws IOException{
 			server = new ServerSocket(port);
+			System.out.println("control socket setup!\n");
 			//server.setSoTimeout(10000);
 		}
+		
 		public void run(){
 			while(true){
 				try {
@@ -20,7 +24,7 @@ class ServerThread extends Thread {
 					    /*{catch(SocketTimeoutException s){
             			System.out.println("Socket timed out!");
                     }*/
-                    System.out.println("accepted0!\n");
+                    System.out.println("accepted a control link!\n");
                     }catch (IOException e) {
 					// TODO Auto-generated catch block
 					//e.printStackTrace();

@@ -1,9 +1,7 @@
 package database;
 
 public class FileItem {
-	
-	//以下变量依次为
-	//文件ID（碎片前缀）|文件名|文件逻辑路径|文件属性|修改时间|碎片数量|文件or文件夹	
+		
 	private int id;
 	private String name;
 	private String path;
@@ -12,7 +10,6 @@ public class FileItem {
 	private int noa;
 	private boolean isFolder;
 	
-	//构造函数，只能在包内调用
 	FileItem(int id,String name,String path,String attribute,String time,int noa,boolean isFolder) {
 		this.id=id;
 		this.name=name;
@@ -23,7 +20,6 @@ public class FileItem {
 		this.isFolder=isFolder;
 	}
 	
-	//构造函数，参数为除了ID外的全部属性
 	public FileItem(String name,String path,String attribute,String time,int noa,boolean isFolder){
 		this.id=0;
 		this.name=name;
@@ -34,7 +30,6 @@ public class FileItem {
 		this.isFolder=isFolder;
 	}
 
-	//各类getter与setter，注意：没有id的setter
 	public int getId() {
 		return id;
 	}
