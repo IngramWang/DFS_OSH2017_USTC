@@ -71,6 +71,47 @@ public class Query {
         return fileItem;
 	}
 	
+	public FileItem queryFile(int id){
+        Statement stmt = null;
+        ResultSet rs = null;
+        FileItem fileItem = null;
+        try{
+            stmt = conn.createStatement();
+            String sql;
+            sql = String.format("SELECT * FROM DFS.FILE WHERE ID='%d'",id);
+            rs = stmt.executeQuery(sql);
+            
+            if (rs.next()) {
+            	int noa = rs.getInt("NOA");
+                String name  = rs.getString("NAME");
+                String path  = rs.getString("PATH");              
+                String attr = rs.getString("ATTRIBUTE");
+                String time = rs.getString("TIME");
+                boolean isFolder = rs.getBoolean("ISFOLDER");
+    
+                fileItem=new FileItem(id,name,path,attr,time,noa,isFolder);
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }        
+        finally{
+            try{
+                if(rs!=null && !rs.isClosed()) 
+                	rs.close();
+            }
+            catch(Exception e){
+            }
+            try{
+                if(stmt!=null && !stmt.isClosed()) 
+                	stmt.close();
+            }
+            catch(Exception e){
+            }            
+        }
+        return fileItem;
+	}
+	
 	public FileItem[] queryFile(String path){
 		Statement stmt = null;
         ResultSet rs = null;
@@ -128,7 +169,7 @@ public class Query {
         return fileArray;
 	}
 	
-	public String queryfragment(int id){
+	public String queryFragment(int id){
         Statement stmt = null;
         ResultSet rs = null;
         String path = null;
@@ -159,6 +200,40 @@ public class Query {
             }            
         }
         return path;
+	}
+	
+	public int queryFragmentNumbers(int fileId){
+		Statement stmt = null;
+        ResultSet rs = null;       
+        
+        try{
+            stmt = conn.createStatement();
+            String sql;
+            sql = String.format("SELECT COUNT(*) FROM DFS.FRAGMENT WHERE ID>='%d' AND ID<'%d'",
+            		fileId*100, (fileId+1)*100);
+            rs = stmt.executeQuery(sql);
+                        
+            rs.next();
+            return rs.getInt(1);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }        
+        finally{
+            try{
+                if(rs!=null && !rs.isClosed()) 
+                	rs.close();
+            }
+            catch(Exception e){
+            }
+            try{
+                if(stmt!=null && !stmt.isClosed()) 
+                	stmt.close();
+            }
+            catch(Exception e){
+            }            
+        }
 	}
 	
 	public DeviceItem[] queryOnlineDevice(){
@@ -664,6 +739,34 @@ public class Query {
             	suc=1;
             else
             	suc=-1;
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }        
+        finally{
+            try{
+                if(stmt!=null && !stmt.isClosed()) 
+                	stmt.close();
+            }
+            catch(Exception e){
+            }            
+        }
+        return suc;
+	}
+	
+	public int alterFragment(int id, String path){
+		Statement stmt = null;
+        int suc = -1;
+        try{
+            stmt = conn.createStatement();
+            String sql;
+            sql = String.format("UPDATE DFS.FRAGMENT SET PATH='%s' WHERE id=%d;",
+            		path, id);
+            suc = stmt.executeUpdate(sql);
+            if (suc>0)
+            	return 1;
+            else
+            	return -1;
         }
         catch(Exception e){
             e.printStackTrace();

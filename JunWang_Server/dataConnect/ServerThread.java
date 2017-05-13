@@ -10,7 +10,7 @@ public class ServerThread extends Thread {
 		
 		public ServerThread(int port) throws IOException{
 			server = new ServerSocket(port);
-			System.out.println("control socket setup!\n");
+			System.out.println("data socket setup!\n");
 		}
 		
 		public void run(){

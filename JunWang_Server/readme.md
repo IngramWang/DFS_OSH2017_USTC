@@ -11,6 +11,22 @@ last update 2017/5/12
 
 -----------------------------------------------------------
 
+5/13 new
+
+特殊规则
+
+对file条目,如果noa为负值,则表示文件碎片尚未全部上传;
+对fragment条目,如果path中的字符串对应的整数为负值,则表示其对应的文件未完成上传.
+
+函数
+
+public FileItem queryFile(int id)
+public int queryFragmentNumbers(int fileId)
+public int alterFragment(int id, String path)
+
+
+-----------------------------------------------------------
+
 5/11 new
 
 ### public String queryUserPasswd(String name)
@@ -319,6 +335,10 @@ received!
 
 {碎片内容}
 
+服务器回复:
+
+received!
+
 ----链接中断----
 
 #### 根据服务器请求下载碎片
@@ -330,6 +350,10 @@ received!
 服务器回复:
 
 {碎片内容}
+
+客户端回复:
+
+received!
 
 ----链接中断----
 
@@ -359,7 +383,8 @@ FileId: {文件ID}
 
 #### 上传文件碎片到服务器
 
-（在上传文件碎片前，必须先通过上传文件报文从服务器获取文件的id）
+(在上传文件碎片前，必须先通过上传文件报文从服务器获取文件的id)
+(最后一个碎片一定要最后上传,这时服务器有可能回复UPLOADFAIL表示整个文件上传失败)
 
 客户端发送:
 
@@ -372,6 +397,10 @@ received!
 客户端回复:
 
 {碎片内容}
+
+服务器回复:
+
+received!
 
 ----链接中断----
 

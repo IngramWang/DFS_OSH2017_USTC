@@ -15,12 +15,12 @@ public class DFS_server {
       	}catch(IOException e){
       		e.printStackTrace();
       	}   
-      	/*
+      	
       	try{
 	        Thread t = new dataConnect.ServerThread(dataPort);
 	        t.start();
       	}catch(IOException e){
       		e.printStackTrace();
-      	}*/  
+      	} 
 	}
 }
