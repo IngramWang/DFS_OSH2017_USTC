@@ -26,7 +26,7 @@ public class FragmentManager extends Thread {
 	@Override
 	public void run() {
 		// 暂不进行并发数据操作
-		//submit();		
+		// submit();
 	}
 
 	public boolean submit() {
@@ -42,8 +42,16 @@ public class FragmentManager extends Thread {
 			outToServer = new DataOutputStream(toServer.getOutputStream());
 			inFromServer = new DataInputStream(new BufferedInputStream(toServer.getInputStream()));
 			System.out.println("Connect to server successfully(data)!");
+			if (type == 1)
+				status = sendFragment();
+			else if (type == 2)
+				status = recvFragment();
+			else if (type == 3)
+				status = deleteFragment();
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace();			
+			status = false;
+		} finally {
 			try {
 				outToServer.close();
 			} catch (Exception ex) {
@@ -59,32 +67,7 @@ public class FragmentManager extends Thread {
 			} catch (Exception ex) {
 				// TODO: handle exception
 			}
-			return false;
 		}
-
-		if (type == 1)
-			status = sendFragment();
-		else if (type == 2)
-			status = recvFragment();
-		else if (type == 3)
-			status = deleteFragment();
-
-		try {
-			outToServer.close();
-		} catch (Exception ex) {
-			// TODO: handle exception
-		}
-		try {
-			inFromServer.close();
-		} catch (Exception ex) {
-			// TODO: handle exception
-		}
-		try {
-			toServer.close();
-		} catch (Exception ex) {
-			// TODO: handle exception
-		}
-
 		return status;
 	}
 
@@ -95,76 +78,72 @@ public class FragmentManager extends Thread {
 	}
 
 	@SuppressWarnings("deprecation")
-	private boolean sendFragment() {
+	private boolean sendFragment() throws Exception {
 		boolean status;
 		String sentense;
 
-		try {
-			File f = new File(fragmentFolder + Integer.toString(fragmentId));
-			if (!f.exists()) {
-				errorHandler(1);
-				return false;
-			}
+		File f = new File(fragmentFolder,Integer.toString(fragmentId));
+		if (!f.exists()) {
+			errorHandler(1);
+			return false;
+		}
 
-			outToServer.writeBytes(String.format("%d %d %d\n", type, requestId, fragmentId));
-			outToServer.flush();
+		outToServer.writeBytes(String.format("%d %d %d\n", type, requestId, fragmentId));
+		outToServer.flush();
 
+		sentense = inFromServer.readLine();
+		if (!sentense.equals("received!"))
+			return false;
+
+		status = FileTransporter.sendFile(f, inFromServer, outToServer);
+
+		if (status) {
 			sentense = inFromServer.readLine();
 			if (!sentense.equals("received!"))
-				return false;
-
-			status = FileTransporter.sendFile(f, inFromServer, outToServer);
-
-			if (status) {
-				sentense = inFromServer.readLine();
-				if (!sentense.equals("received!"))
-					status = false;
-			}
-
-			return status;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+				status = false;
 		}
+
+		return status;
+
 	}
 
-	private boolean recvFragment() {
-		try {
-			File f = new File(fragmentFolder + Integer.toString(fragmentId));
-			if (f.exists()) {
-				f.delete();
-			}
+	private boolean recvFragment() throws Exception {
 
-			outToServer.writeBytes(String.format("%d %d %d\n", type, requestId, fragmentId));
-			outToServer.flush();
-
-			if (FileTransporter.recvFile(f, inFromServer, outToServer)) {
-				outToServer.writeBytes("received!\n");
-				outToServer.flush();
-				return true;
-			} else {
-				return false;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
+		File f = new File(fragmentFolder,Integer.toString(fragmentId));
+		if (f.exists()) {
+			f.delete();
 		}
-	}
 
-	private boolean deleteFragment() {
-		try {
-			File f = new File(fragmentFolder + Integer.toString(fragmentId));
-			if (f.exists()) {
-				f.delete();
-			}
+		outToServer.writeBytes(String.format("%d %d %d\n", type, requestId, fragmentId));
+		outToServer.flush();
 
+		if (FileTransporter.recvFile(f, inFromServer, outToServer)) {
 			outToServer.writeBytes("received!\n");
 			outToServer.flush();
 			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
+		} else {
 			return false;
 		}
+
+	}
+
+	private boolean deleteFragment() throws Exception {
+
+		File f = new File(fragmentFolder,Integer.toString(fragmentId));
+		if (f.exists()) {
+			f.delete();
+		}
+
+		outToServer.writeBytes(String.format("%d %d %d\n", type, requestId, fragmentId));
+		outToServer.flush();
+		
+		@SuppressWarnings("deprecation")
+		String sentense = inFromServer.readLine();
+		if (sentense.equals("received!"))
+			return true;
+		else
+			return true;
+		
 	}
 
 	// handle fatal errors, finish it later
