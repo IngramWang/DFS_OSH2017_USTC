@@ -7,7 +7,7 @@
 本项目目前仍在进行，预期于2017年7月完成。
 
 This project is a course work of Operating System(H) course in University of Science and Technology of China. In the project,
-we will design a Distribute File System using principle of P2P and erasure code.
+we will design a Distribute File System which can easily access with web page using principle of P2P and erasure code.
 
 This project will be completed in July 2017.
 
