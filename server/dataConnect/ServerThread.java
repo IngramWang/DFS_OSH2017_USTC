@@ -10,7 +10,7 @@ public class ServerThread extends Thread {
 		
 		public ServerThread(int port) throws IOException{
 			server = new ServerSocket(port);
-			System.out.println("data socket setup!\n");
+			System.out.println("data socket setup!");
 		}
 		
 		public void run(){
@@ -19,7 +19,7 @@ public class ServerThread extends Thread {
 					Socket socket = server.accept();
 					ClientThread thread =  new ClientThread(socket);
 					thread.start();
-					System.out.println("accepted a data link!\n");
+					System.out.println("accepted a data link!");
                 }catch (IOException e) {
 					// TODO Auto-generated catch block
 				}

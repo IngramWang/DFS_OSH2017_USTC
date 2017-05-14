@@ -89,7 +89,7 @@ class ClientThread extends Thread {
 
 		request = query.queryRequestById(id);
 
-		if (request == null || request.getFragmentId() != fid) {
+		if (request == null || request.getFragmentId() != fid || request.getType() != 1) {
 			outToClient.writeBytes("ERROR!\n");
 			outToClient.flush();
 			status = false;
@@ -122,7 +122,7 @@ class ClientThread extends Thread {
 
 		request = query.queryRequestById(id);
 
-		if (request == null || request.getFragmentId() != fid) {
+		if (request == null || request.getFragmentId() != fid || request.getType() != 2) {
 			status = false;
 		} else {
 			File sendFile = new File(uploadFolderPath + Integer.toString(fid));
@@ -158,7 +158,7 @@ class ClientThread extends Thread {
 
 		request = query.queryRequestById(id);
 
-		if (request == null || request.getFragmentId() != fid) {
+		if (request == null || request.getFragmentId() != fid || request.getType() != 3) {
 			outToClient.writeBytes("ERROR!\n");
 			outToClient.flush();
 			query.closeConnection();
@@ -207,7 +207,8 @@ class ClientThread extends Thread {
 		database.Query query = new database.Query();
 		database.FileItem file = query.queryFile(fileId);
 
-		if (file == null || file.getNoa() != -1 * fragmentCount || fragmentNum >= fragmentCount) {
+		if (file == null || file.getNoa() != -1 * fragmentCount 
+				|| fragmentNum >= fragmentCount || fragmentNum < 0) {
 			outToClient.writeBytes("ERROR!\n");
 			outToClient.flush();
 			status = false;
@@ -223,10 +224,9 @@ class ClientThread extends Thread {
 				query.addFragment(fileId * 100 + fragmentNum, "-1");
 				if (fragmentNum == fragmentCount - 1) {
 					int count = query.queryFragmentNumbers(fileId);
-					if (count == fragmentCount) {
+					if (count == fragmentCount && confirm(fileId, fragmentCount) == 1) {
 						outToClient.writeBytes("received!\n");
 						outToClient.flush();
-						confirm(fileId, fragmentCount);
 						file.setNoa(fragmentCount);
 						query.alterFile(file);
 					} else {
@@ -260,7 +260,7 @@ class ClientThread extends Thread {
 		database.DeviceItem[] di = query.queryOnlineDevice();
 
 		if (di == null) {
-			return 1;
+			return -1;
 		}
 
 		Random rd = new Random();
@@ -306,7 +306,7 @@ class ClientThread extends Thread {
 				}
 			}
 		}
-		return 0;
+		return 1;
 	}
 
 }

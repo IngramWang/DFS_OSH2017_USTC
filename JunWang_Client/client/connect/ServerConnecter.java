@@ -1,4 +1,4 @@
-package client;
+package connect;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -12,9 +12,9 @@ public class ServerConnecter extends Thread {
 	int controlPort, dataPort;
 	int clientId;
 	FragmentManager fragmentManager;
-	SynItem syn;
+	client.SynItem syn;
 
-	public ServerConnecter(String sIp, int cPort, int dPort, int cId, SynItem s) {
+	public ServerConnecter(String sIp, int cPort, int dPort, int cId, client.SynItem s) {
 		serverIP = sIp;
 		controlPort = cPort;
 		dataPort = dPort;
@@ -61,7 +61,7 @@ public class ServerConnecter extends Thread {
 			
 			while (true){
 				try {	
-					outToServer.writeBytes(String.format("1 %d %d\n", clientId, Client.getRS()));
+					outToServer.writeBytes(String.format("1 %d %d\n", clientId, client.Client.getRS()));
 					outToServer.flush();
 					input=inFromServer.readLine();
 					str=input.split(" ");
@@ -79,7 +79,7 @@ public class ServerConnecter extends Thread {
 						int fragmentId=Integer.parseInt(str[1]);
 						int type=Integer.parseInt(str[2]);
 						FragmentManager fManager=new FragmentManager(requestId, fragmentId, type);
-						//fManager.submit();
+						fManager.submit();
 						unreadRequest--;
 					}
 					
@@ -94,7 +94,7 @@ public class ServerConnecter extends Thread {
 			}
 			
 			try{
-				outToServer.writeBytes(String.format("exit\n", clientId, Client.getRS()));
+				outToServer.writeBytes("exit\n");
 				outToServer.flush();
 			} catch (Exception e) {
 				// TODO: handle exception

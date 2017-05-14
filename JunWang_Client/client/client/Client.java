@@ -61,6 +61,7 @@ public class Client {
 		file=new File(fragmentFolder);
 		if (!file.exists() || !file.isDirectory())
 			status=false;
+		connect.FragmentManager.init(file, serverIp, dataPort);
 		file=new File(tmpFragmentFolder);
 		if (!file.exists() || !file.isDirectory())
 			status=false;
@@ -72,7 +73,8 @@ public class Client {
 		
 		syn=new SynItem(0);
 		
-		ServerConnecter serverConnecter=new ServerConnecter(serverIp, controlPort, dataPort, clientId, syn);
+		connect.ServerConnecter serverConnecter=new connect.ServerConnecter(serverIp, controlPort, 
+				dataPort, clientId, syn);
 		
 		serverConnecter.start();
 		

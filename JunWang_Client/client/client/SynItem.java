@@ -14,15 +14,16 @@ public class SynItem {
 	
 	public synchronized void setStatus(int s){
 		status=s;
-		notify();
+		notifyAll();
 	}
 	
 	public synchronized int waitChange(int oldValue) {
-		if (status==oldValue){
+		while (status==oldValue){
 			try{
 				wait();
 			} catch (InterruptedException e) {
 				System.out.println("interrupted");
+				return status;
 			}
 		}
 		return status;

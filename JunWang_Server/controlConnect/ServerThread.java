@@ -10,7 +10,7 @@ public class ServerThread extends Thread {
 		
 		public ServerThread(int port) throws IOException{
 			server = new ServerSocket(port);
-			System.out.println("control socket setup!\n");
+			System.out.println("control socket setup!");
 			//server.setSoTimeout(10000);
 		}
 		
@@ -24,7 +24,7 @@ public class ServerThread extends Thread {
 					    /*{catch(SocketTimeoutException s){
             			System.out.println("Socket timed out!");
                     }*/
-                    System.out.println("accepted a control link!\n");
+                    System.out.println("accepted a control link!");
                     }catch (IOException e) {
 					// TODO Auto-generated catch block
 					//e.printStackTrace();
