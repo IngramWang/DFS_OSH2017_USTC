@@ -13,10 +13,10 @@ class ClientThread extends Thread {
 	private static final String downloadFolderPath = "/CloudDriveServer/downloadFragment/";
 	private static final String uploadFolderPath = "/CloudDriveServer/uploadFragment/";
 
-	Socket clientsocket;
-	DataInputStream inFromClient = null;
-	DataOutputStream outToClient = null;
-	String[] command;
+	private Socket clientsocket;
+	private DataInputStream inFromClient = null;
+	private DataOutputStream outToClient = null;
+	private String[] command;
 
 	public ClientThread(Socket socket) {
 		this.clientsocket = socket;
@@ -49,6 +49,8 @@ class ClientThread extends Thread {
 				status = registerFile();
 			else if (command[0].equals("5"))
 				status = recvFileFragment();
+			else if (command[0].equals("6"))
+				status = checkFolder();
 			else {
 				outToClient.writeBytes("ERROR!\n");
 				outToClient.flush();
@@ -251,6 +253,45 @@ class ClientThread extends Thread {
 		}
 		query.closeConnection();
 		return status;
+	}
+	
+	private boolean checkFolder() throws Exception {
+
+		//int id = Integer.parseInt(command[1]);
+		int num = Integer.parseInt(command[2]);
+
+		database.Query query = new database.Query();
+		database.FileItem file;
+		
+		int i;
+		for (i=0;i<num;i++){
+			@SuppressWarnings("deprecation")
+			String input[]=inFromClient.readLine().split(" ");
+			file = query.queryFile(input[0], input[1]);
+			if (file==null){
+				Date date = new Date();
+				@SuppressWarnings("deprecation")
+				String time = String.format("%d%02d%02d", date.getYear() + 1900, date.getMonth() + 1, date.getDate());
+				file = new database.FileItem(input[1], input[0], "rw", time, 0, true);
+				if (query.addFile(file)<0){
+					break;
+				}				
+			} else if (!file.isFolder()){
+				break;
+			}			
+		}
+		
+		if (i==num){
+			outToClient.writeBytes("received!\n");
+			outToClient.flush();
+		} else {
+			outToClient.writeBytes("ERROR!\n");
+			outToClient.flush();
+		}
+
+		query.closeConnection();
+		return true;
+
 	}
 
 	public static int confirm(int id, int num) {

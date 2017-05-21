@@ -5,13 +5,10 @@ import java.io.FileInputStream;
 import java.util.Scanner;
 
 public class Client {
-	String serverIp;
-	int controlPort, dataPort;
-	int clientId;
-	String uploadFolder;
-	String fragmentFolder;
-	String tmpFragmentFolder;
-	SynItem syn;
+	private int clientId;
+	private File uploadFolders[];
+	private String uploadAddrs[];
+	private SynItem syn;
 		
 	private static final String setUpFile="setup.ini";
 	
@@ -34,52 +31,80 @@ public class Client {
 	}
 	
 	private boolean setUp() {
-		boolean status=true;
+		Scanner scanner=null;
+		String uploadFolder, fragmentFolder, tmpFragmentFolder;
+		int controlPort, dataPort;
+		String serverIp;
+		
 		try{
 			FileInputStream f = new FileInputStream(setUpFile);
-			Scanner scanner=new Scanner(f);
+			scanner=new Scanner(f);
 			serverIp=scanner.nextLine();
 			controlPort=scanner.nextInt();
 			dataPort=scanner.nextInt();
 			clientId=scanner.nextInt();
 				//empty line
-				uploadFolder=scanner.nextLine();
-			uploadFolder=scanner.nextLine();
+				scanner.nextLine();
 			fragmentFolder=scanner.nextLine();
 			tmpFragmentFolder=scanner.nextLine();
+			int i=scanner.nextInt();
+			uploadFolders=new File[i];
+			uploadAddrs=new String[i];
+				//empty line
+				scanner.nextLine();
+			for (int j=0;j<i;j++){
+				uploadFolder=scanner.nextLine();
+				uploadFolders[j]=new File(uploadFolder);
+				if (!uploadFolders[j].exists() || !uploadFolders[j].isDirectory())
+					throw new Exception();
+				uploadAddrs[j]=scanner.nextLine();
+			}
+			
 			scanner.close();
 			f.close();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+			scanner.close();
 			return false;
 		}
 		
-		File file=new File(uploadFolder);
+		connect.ServerConnecter.init(serverIp, controlPort);
+		File file=new File(fragmentFolder);
 		if (!file.exists() || !file.isDirectory())
-			status=false;
-		file=new File(fragmentFolder);
-		if (!file.exists() || !file.isDirectory())
-			status=false;
+			return false;
 		connect.FragmentManager.init(file, serverIp, dataPort);
 		file=new File(tmpFragmentFolder);
 		if (!file.exists() || !file.isDirectory())
-			status=false;
-		
-		return status;
+			return false;
+		fileDetector.FolderScanner.init(file);
+		fileDetector.FileUploader.init(file, serverIp, dataPort);		
+		return true;
 	}
 	
 	private void begin(){
 		
 		syn=new SynItem(0);
 		
-		connect.ServerConnecter serverConnecter=new connect.ServerConnecter(serverIp, controlPort, 
-				dataPort, clientId, syn);
+		connect.ServerConnecter serverConnecter=new connect.ServerConnecter(clientId, syn);
 		
 		serverConnecter.start();
 		
+		fileDetector.FolderScanner folderScanner=new fileDetector.FolderScanner(
+				uploadFolders, uploadAddrs, syn);
+		
+		folderScanner.start();
+		
 		syn.waitChange(0);
 		
-		System.out.println("Err: can not connect to server");
+		if (syn.getStatus()==1){
+			System.out.println("Err: can not connect to server");			
+		}
+		else if (syn.getStatus()==2) {
+			System.out.println("Err: can detect files");
+		}
+		folderScanner.stopDetecting();
+		serverConnecter.stopConnect();
+		
 	}
 }

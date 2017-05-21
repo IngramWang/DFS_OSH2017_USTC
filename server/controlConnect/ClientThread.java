@@ -7,10 +7,10 @@ import java.net.Socket;
 import java.util.concurrent.TimeoutException;
 
 class ClientThread extends Thread {
-	Socket clientsocket;
-	BufferedReader inFromClient = null;
-	DataOutputStream outToClient = null;
-	int clientId=-1;
+	private Socket clientsocket;
+	private BufferedReader inFromClient = null;
+	private DataOutputStream outToClient = null;
+	private int clientId=-1;
 
 	public ClientThread(Socket socket) {
 		this.clientsocket = socket;

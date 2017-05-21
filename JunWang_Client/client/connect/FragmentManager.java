@@ -12,10 +12,10 @@ public class FragmentManager extends Thread {
 	private static String serverIP = null;
 	private static int serverPort = -1;
 
-	Socket toServer;
-	DataOutputStream outToServer = null;
-	DataInputStream inFromServer = null;
-	int requestId, fragmentId, type;
+	private Socket toServer;
+	private DataOutputStream outToServer = null;
+	private DataInputStream inFromServer = null;
+	private int requestId, fragmentId, type;
 
 	public FragmentManager(int rId, int fId, int t) {
 		requestId = rId;

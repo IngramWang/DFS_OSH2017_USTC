@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
-class FileTransporter {
+public class FileTransporter {
 
 	public static boolean recvFile(File f, DataInputStream socIn, DataOutputStream socOut) {
 		try {

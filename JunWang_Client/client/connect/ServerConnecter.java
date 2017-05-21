@@ -7,19 +7,23 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 
 public class ServerConnecter extends Thread {
-	Socket toServer;
-	String serverIP;
-	int controlPort, dataPort;
-	int clientId;
-	FragmentManager fragmentManager;
-	client.SynItem syn;
+	
+	private static String serverIP;
+	private static int controlPort;
 
-	public ServerConnecter(String sIp, int cPort, int dPort, int cId, client.SynItem s) {
-		serverIP = sIp;
-		controlPort = cPort;
-		dataPort = dPort;
+	private Socket toServer;	
+	private int clientId;
+	private boolean connecting = true;
+	private client.SynItem syn;
+
+	public ServerConnecter(int cId, client.SynItem s) {
 		clientId = cId;
 		syn=s;
+	}
+	
+	public static void init(String sIp, int cPort){
+		serverIP = sIp;
+		controlPort = cPort;		
 	}
 
 	@Override
@@ -29,7 +33,7 @@ public class ServerConnecter extends Thread {
 		boolean status=true;
 		String input,str[];
 		
-		while (true) {
+		while (connecting) {
 			try {
 				toServer = new Socket(serverIP, controlPort);
 				outToServer = new DataOutputStream(toServer.getOutputStream());
@@ -119,8 +123,14 @@ public class ServerConnecter extends Thread {
 			}
 		}
 		
-		syn.setStatus(1);
-		System.out.println("ERR: connect to server has been interrupted!");
+		if (connecting){
+			syn.setStatus(1);
+			System.out.println("ERR: connect to server has been interrupted!");
+		}		
+	}
+	
+	public void stopConnect() {
+		connecting = false;
 	}
 
 }
