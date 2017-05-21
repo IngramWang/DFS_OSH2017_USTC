@@ -22,7 +22,7 @@ class ClientThread extends Thread {
 		try {
 			clientsocket.setKeepAlive(true);
 			// if debug, delete next line
-			clientsocket.setSoTimeout(60000);
+			//clientsocket.setSoTimeout(60000);
 			inFromClient = new BufferedReader(new InputStreamReader(clientsocket.getInputStream()));
 			outToClient = new DataOutputStream(clientsocket.getOutputStream());
 
