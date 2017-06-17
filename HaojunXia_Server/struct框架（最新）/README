@@ -11,3 +11,8 @@ lib/中增加了的lib文件有：
 1.sturcs的blank模板的所有lib
 2.jdbc相关lib 1个
 3.json-plugin　＋　jason-lib　
+
+
+
+2017.6.18 更新
+完成了文件目录展示和交互式更新　本次主要增加了　主操作界面majorPage.jsp 和配套的majorPage.js + GetFileList.java 

@@ -5,9 +5,17 @@
 
 <struts>
 
-     <package name ="welcomePackage" extends="struts-default">  
-            <action name ="first">  
-                 <result >/first.jsp </result >  
+     <package name ="userManagement" extends="json-default">  
+            <action name ="UserReg" class = "userManagement.UserReg">  
+ 						<result type="json" name="success"></result> 
+            </action >  
+            
+            <action name ="UserLogin" class = "userManagement.UserLogin">  
+ 						<result type="json" name="success"></result>
+            </action >  
+            
+            <action name ="GetFileList" class = "userManagement.GetFileList">  
+ 						<result type="json" name="success"></result>
             </action >  
     </package >  
 
