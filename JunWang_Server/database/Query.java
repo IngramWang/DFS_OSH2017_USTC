@@ -492,6 +492,40 @@ public class Query {
         }
 	}
 	
+	public int queryRequestNumbers(int fileId, int type){
+		Statement stmt = null;
+        ResultSet rs = null;       
+        
+        try{
+            stmt = conn.createStatement();
+            String sql;
+            sql = String.format("SELECT COUNT(*) FROM DFS.REQUEST WHERE FRAGMENTID>='%d' "
+            		+ "AND FRAGMENTID<'%d' AND TYPE='%d'", fileId*100, (fileId+1)*100, type);
+            rs = stmt.executeQuery(sql);
+                        
+            rs.next();
+            return rs.getInt(1);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return 0;
+        }        
+        finally{
+            try{
+                if(rs!=null && !rs.isClosed()) 
+                	rs.close();
+            }
+            catch(Exception e){
+            }
+            try{
+                if(stmt!=null && !stmt.isClosed()) 
+                	stmt.close();
+            }
+            catch(Exception e){
+            }            
+        }
+	}
+	
 	public String queryUserPasswd(String name){
         Statement stmt = null;
         ResultSet rs = null;
