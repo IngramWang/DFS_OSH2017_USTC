@@ -39,6 +39,7 @@ $(document).ready(function(){
 							 * 
 							 * */
 							//利用ａｊａｘ　远程调用　downloadRegister(String path, String name)；
+							var result;
 							var	form=new FormData();
 							form.append("path",path);
 							form.append("name",name);
@@ -49,25 +50,26 @@ $(document).ready(function(){
 									dataType:"text",
 									processData:false,
 									contentType:false,
+									async: false,								//此处采用同步查询进度
 									success:function(databack){
 										var obj = $.parseJSON(databack);
-										var result = obj.result;
+										result = obj.result;
 										//alert(result);
-										
-										//错误处理
-										if(result=="NotEnoughFragments")
-										{
-											$("#statusFeedback").text("在线碎片数目不足！");
-											return;
-										}
-										else if(result == "Error")
-										{
-											$("#statusFeedback").text("服务器响应该请求内部出错！");
-											return;
-										}
 									}
 							});
 
+							//错误处理
+							if(result=="NotEnoughFragments")
+							{
+								$("#statusFeedback").text("在线碎片数目不足！");
+								return;
+							}
+							else if(result == "Error")
+							{
+								$("#statusFeedback").text("服务器响应该请求内部出错！");
+								return;
+							}
+							
 							//添加进度条
 							var ratio１ = 0;
 							var progress_bar='<div class="progress progress-striped active"><div class="progress-bar progress-bar-success" role=\"progressbar" style="width: '
