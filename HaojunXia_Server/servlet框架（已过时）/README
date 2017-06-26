@@ -55,8 +55,7 @@ ROOT文件夹直接拷贝到tomcat/webapps/  覆盖原有ROOT  即可以在local
 	转移当前目录为tem:
 	$cd /tmp
 	
-	下载最新的tomcat:
-	$curl -O http://apache.mirrors.ionfish.org/tomcat/tomcat-8/v8.5.5/bin/apache-tomcat-8.5.5.tar.gz
+	从ｔｏｍｃａｔ官网下载最新的tomcat
 
 	新建安装目录:
 	$sudo mkdir /opt/tomcat
