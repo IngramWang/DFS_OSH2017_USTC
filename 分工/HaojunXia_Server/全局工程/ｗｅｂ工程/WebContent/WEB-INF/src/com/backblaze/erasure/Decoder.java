@@ -18,7 +18,7 @@ public class Decoder {
 
     public static final int BYTES_IN_INT = 4;
 
-    public static boolean decode(File shardsFolder, File fileFolder, int fid, int noa) throws IOException {
+    public static boolean decode(File shardsFolder, File decodedFile, int fid, int noa) throws IOException {
 
         final int totalShards = noa;
         final int dataShards = noa / 2;      
@@ -71,7 +71,8 @@ public class Decoder {
         int fileSize = ByteBuffer.wrap(allBytes).getInt();
 
         // Write the decoded file
-        File decodedFile = new File(fileFolder, Integer.toString(fid));
+        if (decodedFile.exists())
+        	decodedFile.delete();
         OutputStream out = new FileOutputStream(decodedFile);
         out.write(allBytes, BYTES_IN_INT, fileSize);
         out.close();
